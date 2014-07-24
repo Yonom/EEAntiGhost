@@ -33,7 +33,12 @@ namespace EEAntiGhost
             {
                 var message = Message.Create(String.Empty, e.Player.UserId);
                 var ev = new LeftReceiveEvent(message);
-                this.Events.Raise(ev);
+
+                this.SynchronizePlatform.Do(() =>
+                {
+                    this.Events.Raise<ReceiveEvent>(ev);
+                    this.Events.Raise(ev);
+                });
             }
         }
     }
